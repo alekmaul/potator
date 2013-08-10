@@ -49,6 +49,7 @@ Special thanks to :
   Cal2 & Normmatt for potator source code (http://potator.sourceforge.net/).
   d_smargin for handy_a320 gui, which i used some part of code for race-od gui.
   qbertaddict for test.
+  hi-ban for skin.
 Without the help of the infos from these people, this emulator can't be here.
 --------------------------------------------------------------------------------
 Alekmaul
