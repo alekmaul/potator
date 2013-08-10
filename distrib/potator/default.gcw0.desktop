@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Potator
+Comment=Watara Supervision Emulator
+Exec=potator-gcw0.dge
+Icon=icon
+Categories=emulators;
+X-OD-Manual=readme.txt
+
