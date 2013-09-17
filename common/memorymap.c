@@ -145,22 +145,18 @@ void memorymap_registers_write(uint32 Addr, uint8 Value)
 	case 0x10:
 	case 0x11:
 	case 0x12:	
+	case 0x13:	// ALEK
 	case 0x14:
 	case 0x15:
 	case 0x16:	
-#ifdef GP2X
-		if(currentConfig.enable_sound) sound_write(Addr&7, Value); break;
-#else
-		sound_write(Addr&7, Value); break;
-#endif
+	case 0x17:		// ALEK
+		soundport_w(((Addr&0x4)>>2), Addr&3, Value); break;
+		//sound_write(Addr&7, Value); break;
 	case 0x28:
 	case 0x29:
 	case 0x2a: 
-#ifdef GP2X
-		if(currentConfig.enable_sound) sound_noise_write(Addr&0x07, Value); break;
-#else
-		sound_noise_write(Addr&0x07, Value); break;
-#endif
+		svision_noise_w(Addr&0x07, Value); break;
+		//sound_noise_write(Addr&0x07, Value); break;
 	case 0x18:
 	case 0x19:
 	case 0x1a:
@@ -169,7 +165,8 @@ void memorymap_registers_write(uint32 Addr, uint8 Value)
 #ifdef GP2X
 		if(currentConfig.enable_sound) sound_audio_dma(Addr&0x07, Value); break;
 #else
-		sound_audio_dma(Addr&0x07, Value); break;
+		svision_sounddma_w(Addr&0x07, Value); break;
+		//sound_audio_dma(Addr&0x07, Value); break;
 #endif
 	}
 }

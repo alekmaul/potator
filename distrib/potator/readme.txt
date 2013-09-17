@@ -1,4 +1,4 @@
-Potator for GCW-ZERO V1.0
+Potator for GCW-ZERO V1.1
 --------------------------------------------------------------------------------
 This is a Watara SuperVision for GCW-ZERO.
 To use this emulator, you must have compatibles ROMS with .SV & .BIN extension.
@@ -8,7 +8,6 @@ you.
 Features :
 ----------
  Most things you should expect from an emulator.
- Sound is not really nice :/
 
 Missing :
 ---------
@@ -20,12 +19,18 @@ http://www.portabledev.com
 --------------------------------------------------------------------------------
 List of emulated games
 --------------------------------------------------------------------------------
-Lots of the Potator games ;)
+All of the Potator games ;)
 
 --------------------------------------------------------------------------------
 History :
 --------------------------------------------------------------------------------
-V1.0 : 10/08/2013
+V1.1 : 17/09/2013
+  Fixed  : last register for fm voice not write
+  Fixed  : some typo in readme file
+  Fixed  : game crc was not good (always 0)
+  Update : sound driver rewrite to be more accurate with MESS version driver
+  
+V1.0 : 03/11/2012
   Initiale release
 
 --------------------------------------------------------------------------------
@@ -47,6 +52,7 @@ Credits
 --------------------------------------------------------------------------------
 Special thanks to :
   Cal2 & Normmatt for potator source code (http://potator.sourceforge.net/).
+  Mess Team for supervision driver (http://www.mess.org/)
   d_smargin for handy_a320 gui, which i used some part of code for potator gui.
   qbertaddict for test.
   hi-ban for skin.

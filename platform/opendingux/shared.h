@@ -10,6 +10,7 @@
 #include <sys/types.h>
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 // defines and macros
 #define MAX__PATH 1024
@@ -83,5 +84,12 @@ extern void mainemuinit();
 extern void screen_showtopmenu(void);
 extern void print_string_video(int x, int y, const char *s);
 extern void gethomedir(char *dir, char* name);
+
+// sound
+extern void AWriteAudioData(unsigned int chan, unsigned int len, unsigned char *pWav);
+extern void Ainit(void);
+extern void Aclose(void);
+extern void APlayVoice(unsigned int chan, unsigned char *pWav, unsigned int loop);
+extern void AStopVoice(unsigned int chan, unsigned char *pWav);
 
 #endif

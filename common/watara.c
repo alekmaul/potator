@@ -198,12 +198,12 @@ void supervision_exec(int16 *backbuffer, BOOL bRender)
 
 	for (supervision_scanline = 0; supervision_scanline < 160; supervision_scanline++)
 	{
-		m6502_registers.ICount = 512; ///2; //shouldnt really devide by two its just quicker :)
+		m6502_registers.ICount = 512; 
 		timer_exec(m6502_registers.ICount);
 #ifdef GP2X
 		if(currentConfig.enable_sound) sound_exec(11025/160);
 #else
-		sound_exec(22050/160);
+		//sound_exec(22050/160);
 #endif
 		Run6502(&m6502_registers);
 #ifdef NDS

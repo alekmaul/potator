@@ -471,7 +471,7 @@ void screen_showmainmenu(MENU *menu) {
 		if (gameMenu) {
 			screen_showmenu(menu); // show menu items
 			if (menu == &mnuMainMenu) {
-				print_string("V1.0", COLOR_LIGHT,COLOR_BG, 294,29);
+				print_string("V1.1", COLOR_LIGHT,COLOR_BG, 294,29);
 				if (cartridge_IsLoaded()) {
 #ifdef _OPENDINGUX_
 					sprintf(szVal,"Game:%s",strrchr(gameName,'/')+1);szVal[(320/6)-2] = '\0'; 

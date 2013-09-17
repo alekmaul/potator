@@ -3,19 +3,8 @@
 
 #include "supervision.h"
 
-#define BPS			22050
-#define BPSMAX		44100
-#define BPSMIN		11025
-#define BUFSIZE		BPS
-#define POFF		128
-#define PDIV		3
-#define PH			POFF+PDIV*8
-#define PL			POFF-PDIV*7
+#define BPS			44100
 
-extern uint8       noise_buffer[BUFSIZE];
-extern uint8       voice_buffer[BUFSIZE];
-extern uint8       dma_buffer[BUFSIZE];
-extern uint8       final_buffer[BUFSIZE];
 
 void sound_init();
 void sound_reset();

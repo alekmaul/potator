@@ -76,7 +76,7 @@ void graphics_paint(void) {
 		H=SYSVID_HEIGHT;
 		ix=(SYSVID_WIDTH<<16)/W;
 		iy=(SYSVID_HEIGHT<<16)/H;
-		xfp = (x+SYSVID_WIDTH)-20-14;yfp = y+1;
+		xfp = (x+SYSVID_WIDTH)-20;yfp = y+1;
 		
 		buffer_scr += (y)*320;
 		buffer_scr += (x);
@@ -111,45 +111,8 @@ void graphics_paint(void) {
 	SDL_Flip(actualScreen);
 }
 
-void audio_callback(void *userdata, Uint8 *stream, int len) {
-	int i = 0;
-	int lensnd=len;
-	unsigned char *buffer8=stream;
-
-	SDL_mutexP(sndlock);
-
-	while(lensnd>0) {
-		//if(audio_FmVoicePlaying && audio_NoiseVoicePlaying && audio_AudioDmaVoicePlaying) {
-			*buffer8++=(noise_buffer[i]+voice_buffer[i]+dma_buffer[i])/3;
-			//*buffer16++=(signed short)(noise_buffer[i]+voice_buffer[i]+dma_buffer[i])/3;	//Right
-		/*} else if(audio_FmVoicePlaying && audio_NoiseVoicePlaying) {
-			*buffer16++=(signed short)(voice_buffer[i]+noise_buffer[i]);	//Left
-			*buffer16++=(signed short)(voice_buffer[i]+noise_buffer[i]);	//Right
-		} else if(audio_AudioDmaVoicePlaying && audio_NoiseVoicePlaying) {
-			*buffer16++=(signed short)(dma_buffer[i]+noise_buffer[i]);	//Left
-			*buffer16++=(signed short)(dma_buffer[i]+noise_buffer[i]);	//Right
-		} else if(audio_AudioDmaVoicePlaying && audio_FmVoicePlaying) {
-			*buffer16++=(signed short)(dma_buffer[i]+voice_buffer[i]);	//Left
-			*buffer16++=(signed short)(dma_buffer[i]+voice_buffer[i]);	//Right
-		} else if(audio_FmVoicePlaying) {
-			*buffer16++=(signed short)(voice_buffer[i]);	//Left
-			*buffer16++=(signed short)(voice_buffer[i]);	//Right
-		} else if(audio_AudioDmaVoicePlaying) {
-			*buffer16++=(signed short)(dma_buffer[i]);	//Left
-			*buffer16++=(signed short)(dma_buffer[i]);	//Right
-		} else if(audio_NoiseVoicePlaying) {
-			*buffer16++=(signed short)(noise_buffer[i]);	//Left
-			*buffer16++=(signed short)(noise_buffer[i]);	//Right
-		}*/
-		++i;
-		lensnd-=1;
-	}
-	SDL_mutexV(sndlock);
-}
 
 void initSDL(void) {
-    SDL_AudioSpec spec, retSpec;
-	
 	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) < 0) {
 		fprintf(stderr, "Couldn't initialize SDL: %s\n",SDL_GetError());
 		exit(1);
@@ -180,31 +143,13 @@ void initSDL(void) {
 		exit(1);
 	}
 
-	// Init sound
-	spec.freq = 22050;
-	spec.format = AUDIO_U8;
-	spec.channels = 1;
-	spec.samples = 512;
-	spec.callback = audio_callback;
-	spec.userdata = NULL;
-
-    // Open the audio device and start playing sound! 
-    if ( SDL_OpenAudio(&spec, &retSpec) < 0 ) {
-        fprintf(stderr, "Unable to open audio: %s\n", SDL_GetError());
-        exit(1);
-    }
-
-	sndlock = SDL_CreateMutex();
-	if (sndlock == NULL) {
-		fprintf(stderr, "Unable to create lock: %s\n", SDL_GetError());
-		SDL_CloseAudio();
-        exit(1);
-	}
-
 	// Init joystick
 	SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 	SDL_JoystickEventState(SDL_ENABLE);
 	stick = SDL_JoystickOpen(0);
+	
+	// Init sound
+	Ainit();
 }
 
 unsigned char potatorLoadROM(char* filename) {
@@ -223,6 +168,10 @@ unsigned char potatorLoadROM(char* filename) {
 		fclose(romfile);
 
 		supervision_load(rom_buffer, rom_size);
+
+		// Compute game CRC
+		gameCRC = crc32(0, rom_buffer, rom_size);
+
 		return 1;
 	}
 	
@@ -316,14 +265,14 @@ int main(int argc, char *argv[]) {
 				else if ( (keys[SDLK_ESCAPE] == SDL_PRESSED) )  controls_state |=  keyCoresp[GameConf.OD_Joy[11]]; // SELECT
 
 				// Update emulation
-				supervision_exec((unsigned short *) XBuf,1);
+				supervision_exec((unsigned short *) XBuf,1);sound_decrement();
 				graphics_paint();
 		 
 				nextTick += interval;
 				break;
 		}
 	}
-	SDL_PauseAudio(1);
+	Aclose();
 	
 	// Free memory
 	SDL_FreeSurface(layerbackgrey);
