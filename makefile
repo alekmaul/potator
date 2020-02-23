@@ -8,7 +8,7 @@ PRGNAME     = potator-od
 # define regarding OS, which compiler to use
 ifeq "$(OSTYPE)" "msys"	
 EXESUFFIX = .exe
-TOOLCHAIN = /c/MinGW32
+TOOLCHAIN = /d/MinGW32
 CC          = $(TOOLCHAIN)/bin/gcc
 CCP         = $(TOOLCHAIN)/bin/g++
 LD          = $(TOOLCHAIN)/bin/g++
