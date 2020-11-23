@@ -230,7 +230,7 @@ int main(int argc, char *argv[]) {
 					SDL_PauseAudio(0);
 				}
 				else {
-					fprintf(stderr,"cant't load %s : %s",gameName,SDL_GetError()); fflush(stderr);
+					fprintf(stderr,"can't load %s : %s",gameName,SDL_GetError()); fflush(stderr);
 					m_Flag = GF_GAMEQUIT;
 				}
 				break;
